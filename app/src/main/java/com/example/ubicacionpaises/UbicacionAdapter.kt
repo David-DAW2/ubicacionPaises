@@ -39,6 +39,7 @@ class UbicacionAdapter(private val ubicaciones: List<Ubicacion>,val listener: (U
                     .into(binding.foto)
 
 
+
         }
     }
 }

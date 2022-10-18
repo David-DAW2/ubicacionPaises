@@ -4,14 +4,14 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import com.example.ubicacionpaises.databinding.ActivityMainBinding
+import android.view.View
+import androidx.fragment.app.Fragment
+import com.example.ubicacionpaises.databinding.FragmentMainBinding
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+class MainFragment : Fragment(R.layout.fragment_main) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentMainBinding.bind(view)
         binding.recycler.adapter = UbicacionAdapter(ubicaciones = listOf(
             Ubicacion("Paris","https://loremflickr.com/g/320/240/paris","48.85341","2.3488"),
             Ubicacion("Amsterdam","https://loremflickr.com/g/320/240/CityOfAmsterdam","52.374° N","4.8897° E"),
@@ -29,20 +29,21 @@ class MainActivity : AppCompatActivity() {
             Ubicacion("Amsterdam","https://loremflickr.com/g/320/240/CityOfAmsterdam","52.374° N","4.8897° E"),
 
 
-            ),{ ubicacion ->
-            val gmmIntentUri = Uri.parse("geo:0,0?q="+ubicacion.latitud+","+ubicacion.longitud)
+            )
+        ) { ubicacion ->
+            val gmmIntentUri =
+                Uri.parse("geo:0,0?q=" + ubicacion.latitud + "," + ubicacion.longitud)
 
-                // Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
-                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                // Make the Intent explicit by setting the Google Maps package
-                    mapIntent.setPackage("com.google.android.apps.maps")
+            // Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            // Make the Intent explicit by setting the Google Maps package
+            mapIntent.setPackage("com.google.android.apps.maps")
 
-                // Attempt to start an activity that can handle the Intent
-                  startActivity(mapIntent)
+            // Attempt to start an activity that can handle the Intent
+            startActivity(mapIntent)
 
 
-
-        })
+        }
     }
 }
 
